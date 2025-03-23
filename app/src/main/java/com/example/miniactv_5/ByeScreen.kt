@@ -14,15 +14,18 @@ import androidx.navigation.NavController
 
 @Composable
 fun ByeScreen(
-    byeMessage: String,
-    repetitions: Int,
-    imageUri: String?,
-    onNavigateBack: (NavController, String) -> Unit,
-    navController: NavController
+    byeMessage: String, // Mensagem de despedida digitada pelo usuário
+    repetitions: Int, // Número de vezes que a mensagem será repetida
+    imageUri: String?, // URI da imagem selecionada (pode ser nula)
+    onNavigateBack: (NavController, String) -> Unit, // Função chamada ao voltar para a tela inicial
+    navController: NavController // Controlador de navegação
 ) {
+
+    // Estrutura base da tela usando Scaffold
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(), // Preenche all espaco disponivel
         content = { padding ->
+            // Usa LazyColumn para criar uma lista rolável
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -31,10 +34,13 @@ fun ByeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
+
+                // Exibe a imagem selecionada, se houver
                 if (imageUri != null) {
                     item {
+                        // Usa AsyncImage (da biblioteca Coil) para carregar e exibir a imagem
                         AsyncImage(
-                            model = imageUri,
+                            model = imageUri, // URI da imagem
                             contentDescription = "Selected image",
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -45,6 +51,7 @@ fun ByeScreen(
                     }
                 }
 
+                // Repete a mensagem de despedida o número de vezes especificado
                 items(repetitions) {
                     Text(
                         text = byeMessage,
@@ -53,9 +60,11 @@ fun ByeScreen(
                     )
                 }
 
+                // Botão para voltar à tela inicial
                 item {
                     Button(
                         onClick = {
+                            // Chama a função de navegação para voltar, passando a mensagem de despedida
                             onNavigateBack(navController, byeMessage)
                         },
                         modifier = Modifier
