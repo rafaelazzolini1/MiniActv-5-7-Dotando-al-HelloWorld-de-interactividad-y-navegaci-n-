@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MiniActv-5</string>
+    <string name="welcome">Bienvenido</string>
+    <string name="goodbye">Presenta el mensaje de despedida:</string>
+    <string name="input_message">Ingrese el texto para el saludo de despedida aquí</string>
+    <string name="input_number">Introduzca el número de repeticiones:</string>
+    <string name="goodbye_button">Ir a la pantalla de despedida</string>
+    <string name="select_image_button">Seleccionar una imagen</string>
+    <string name="go_back_button">Go back</string>
+</resources>
