@@ -3,39 +3,38 @@ package com.example.miniactv_5
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.res.stringResource
-import coil.compose.AsyncImage
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 
 @Composable
 fun ByeScreen(
-    byeMessage: String, // Mensagem de despedida digitada pelo usuário
-    repetitions: Int, // Número de vezes que a mensagem será repetida
-    imageUri: String?, // URI da imagem selecionada (pode ser nula)
-    onNavigateBack: (NavController, String) -> Unit, // Função chamada ao voltar para a tela inicial
-    navController: NavController // Controlador de navegação
+    byeMessage: String,
+    repetitions: Int,
+    encodedImageUri: String,
+    navController: NavController,
+    viewModel: AppViewModel = viewModel()
 ) {
+    val imageUri = viewModel.decodeImageUri(encodedImageUri)
 
-    // Estrutura base da tela usando Scaffold
     Scaffold(
-        modifier = Modifier.fillMaxSize(), // Preenche all espaco disponivel
+        modifier = Modifier.fillMaxSize(),
         content = { padding ->
-            // Usa LazyColumn para criar uma lista rolável
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
                     .padding(horizontal = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Top
             ) {
-
-                // Exibe a imagem selecionada, se houver
+                // Exibe a imagem, se houver
                 if (imageUri != null) {
                     item {
                         // Usa AsyncImage (da biblioteca Coil) para carregar e exibir a imagem
@@ -51,28 +50,25 @@ fun ByeScreen(
                     }
                 }
 
-                // Repete a mensagem de despedida o número de vezes especificado
-                items(repetitions) {
+                // Repete a mensagem
+                items(repetitions.coerceAtMost(AppViewModel.MAX_REPETITIONS)) {
                     Text(
                         text = byeMessage,
-                        style = MaterialTheme.typography.headlineMedium,
+                        style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
                 }
 
-                // Botão para voltar à tela inicial
+                // Botão para voltar
                 item {
-                    Button(
-                        onClick = {
-                            // Chama a função de navegação para voltar, passando a mensagem de despedida
-                            onNavigateBack(navController, byeMessage)
-                        },
+                    ActionButton(
+                        text = stringResource(R.string.go_back_button),
+                        onClick = { viewModel.navigateBack(navController, byeMessage) },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 16.dp, bottom = 16.dp)
-                    ) {
-                        Text(text = stringResource(R.string.go_back_button))
-                    }
+                            .padding(vertical = 16.dp),
+//                        contentDescription = stringResource(R.string.go_back_button_description)
+                    )
                 }
             }
         }
