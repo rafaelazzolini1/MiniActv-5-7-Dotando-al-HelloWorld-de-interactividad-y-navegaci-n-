@@ -8,12 +8,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 
 @Composable
 fun GreetingScreen(
-    viewModel: AppViewModel = viewModel(),
+    viewModel: AppViewModel,
     navController: NavController
 ) {
     val welcomeMessage by viewModel.welcomeMessage
@@ -21,7 +20,6 @@ fun GreetingScreen(
     val repetitions by viewModel.repetitions
     val byeMessageError by viewModel.byeMessageError
     val repetitionsError by viewModel.repetitionsError
-    val imageUri by viewModel.imageUri
 
     Column(
         modifier = Modifier
@@ -36,7 +34,6 @@ fun GreetingScreen(
             modifier = Modifier.padding(bottom = 32.dp)
         )
 
-        // Campo para mensagem de despedida
         InputField(
             value = byeMessage,
             onValueChange = { viewModel.updateByeMessage(it) },
@@ -47,7 +44,6 @@ fun GreetingScreen(
                 .padding(bottom = 16.dp)
         )
 
-        // Campo para número de repetições
         InputField(
             value = repetitions,
             onValueChange = { viewModel.updateRepetitions(it) },
@@ -58,7 +54,6 @@ fun GreetingScreen(
                 .padding(bottom = 16.dp)
         )
 
-        // Botão para selecionar imagem
         ImagePickerButton(
             onImageSelected = { viewModel.updateImageUri(it) },
             modifier = Modifier
@@ -66,7 +61,6 @@ fun GreetingScreen(
                 .padding(bottom = 16.dp)
         )
 
-        // Botão para navegar para ByeScreen
         ActionButton(
             text = stringResource(R.string.goodbye_button),
             onClick = { viewModel.navigateToByeScreen(navController) },

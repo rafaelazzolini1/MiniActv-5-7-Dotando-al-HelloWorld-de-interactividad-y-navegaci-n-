@@ -9,17 +9,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 
 @Composable
 fun ByeScreen(
+    viewModel: AppViewModel,
     byeMessage: String,
     repetitions: Int,
     encodedImageUri: String,
-    navController: NavController,
-    viewModel: AppViewModel = viewModel()
+    navController: NavController
 ) {
     val imageUri = viewModel.decodeImageUri(encodedImageUri)
 
@@ -34,12 +33,10 @@ fun ByeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top
             ) {
-                // Exibe a imagem, se houver
                 if (imageUri != null) {
                     item {
-                        // Usa AsyncImage (da biblioteca Coil) para carregar e exibir a imagem
                         AsyncImage(
-                            model = imageUri, // URI da imagem
+                            model = imageUri,
                             contentDescription = "Selected image",
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -50,7 +47,6 @@ fun ByeScreen(
                     }
                 }
 
-                // Repete a mensagem
                 items(repetitions.coerceAtMost(AppViewModel.MAX_REPETITIONS)) {
                     Text(
                         text = byeMessage,
@@ -59,7 +55,6 @@ fun ByeScreen(
                     )
                 }
 
-                // Botão para voltar
                 item {
                     ActionButton(
                         text = stringResource(R.string.go_back_button),
@@ -67,7 +62,6 @@ fun ByeScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 16.dp),
-//                        contentDescription = stringResource(R.string.go_back_button_description)
                     )
                 }
             }

@@ -2,7 +2,6 @@ package com.example.miniactv_5
 
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -65,6 +64,5 @@ fun ImagePickerButton(
         text = stringResource(R.string.select_image_button),
         onClick = { pickImageLauncher.launch("image/*") },
         modifier = modifier,
-//        contentDescription = stringResource(R.string.select_image_button_description)
     )
 }
